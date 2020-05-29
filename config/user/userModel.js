@@ -4,8 +4,7 @@ module.exports = {
     addUser,
     getUsers,
     findUserBy,
-    findUserById,
-    getOrdersByEmail
+    findUserById
 }
 
 async function addUser(user) {
@@ -31,9 +30,3 @@ function findUserById(id) {
         .first()
 }
 
-function getOrdersByEmail(email) {
-    return db('pizza as p')
-        .innerJoin('users as u', 'u.id', 'p.user_id')
-        .where({email})
-        .select('u.email', 'p.crust', 'p.sauce', 'p.cheese', 'p.toppings')
-}

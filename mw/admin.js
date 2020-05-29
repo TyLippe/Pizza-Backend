@@ -22,7 +22,6 @@ function admin(req, res, next) {
         User.findUserBy({email})
             .first()
             .then(user => {
-                console.log(user)
                 if(user.type === 'Admin'){
                     next()
                 } else {

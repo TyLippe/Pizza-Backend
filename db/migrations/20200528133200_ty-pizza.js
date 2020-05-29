@@ -26,88 +26,26 @@ exports.up = function(knex) {
             .string('type')
             .defaultTo('basic')
     })
-    // .createTable('order', order => {
-    //     order.increments()
+    .createTable('order', order => {
+        order.increments()
 
-    //     order
-    //         .integer('user_id')
-    //         .unsigned()
-    //         .notNullable()
-    //         .references('id')
-    //         .inTable('users')
-    //         .onUpdate('CASCADE')
-    //         .onDelete('CASCADE')
-    // })
-    .createTable('pizza', pizza => {
-        pizza.increments()
-
-        pizza
-        .string('crust', 128)
-        .notNullable()
-        pizza
-        .string('sauce', 128)
-        .notNullable()
-        pizza
-        .string('cheese', 128)
-        .notNullable()
-        pizza   
-        .json('toppings')
-        .notNullable()
-        pizza
-            .integer('user_id')
-            .unsigned()
-            .notNullable()
-            .references('id')
-            .inTable('users')
-            .onUpdate('CASCADE')
-            .onDelete('CASCADE')
-    })
-    .createTable('wings', wings => {
-        wings.increments()
-
-        wings
-            .string('type', 128)
-            .notNullable()
-        wings
+        order
+            .string('item_type')
+        order
+            .string('crust')
+        order
+            .string('sauce')
+        order
+            .string('cheese')
+        order
+            .json('toppings')
+        order
+            .string('type')
+        order
             .integer('amount')
-            .notNullable()
-        wings
-            .string('sauce', 128)
-            .notNullable()
-        wings
-            .integer('user_id')
-            .unsigned()
-            .notNullable()
-            .references('id')
-            .inTable('users')
-            .onUpdate('CASCADE')
-            .onDelete('CASCADE')
-    })
-    .createTable('sides', sides => {
-        sides.increments()
-
-        sides
-            .json('type')
-            .notNullable()
-        sides
-            .integer('user_id')
-            .unsigned()
-            .notNullable()
-            .references('id')
-            .inTable('users')
-            .onUpdate('CASCADE')
-            .onDelete('CASCADE')
-    })
-    .createTable('drinks', drinks => {
-        drinks.increments()
-
-        drinks
-            .string('size', 128)
-            .notNullable()
-        drinks
-            .string('type', 128)
-            .notNullable()
-        drinks
+        order
+            .string('size')
+        order
             .integer('user_id')
             .unsigned()
             .notNullable()
@@ -121,9 +59,5 @@ exports.up = function(knex) {
 exports.down = function(knex) {
     return knex.schema
         .dropTableIfExists('users')
-        // .dropTableIfExists('order')
-        .dropTableIfExists('pizza')
-        .dropTableIfExists('wings')
-        .dropTableIfExists('sides')
-        .dropTableIfExists('drinks')
+        .dropTableIfExists('order')
 };

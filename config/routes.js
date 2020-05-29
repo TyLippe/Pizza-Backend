@@ -12,12 +12,9 @@ module.exports = server => {
     server.post('/api/register', userRegister)
     server.post('/api/login', userLogin)
     server.get('/api/users', admin, getUsers)
-    server.post('/api/orders', admin, searchOrders)
-    server.post('/api/:id/order/pizza', authenticate, addPizza)
-}
-
-function testing(req, res) {
-    res.send('If you can read this then I am working!')
+    server.get('/api/:id/order', admin, searchOrders) // :id === User Id
+    server.post('/api/order/:id/food', authenticate, addFood) // :id === Order Id
+    server.delete('/api/order/:id', authenticate, deleteFood) // :id === Order Id
 }
 
 function generateToken(user) {
@@ -31,6 +28,10 @@ function generateToken(user) {
     };
     return jwt.sign(jwtPayload, secrets.jwtSecret, jwtOptions);
 };
+
+function testing(req, res) {
+    res.send('If you can read this then I am working!')
+}
 
 function userRegister(req, res) {
     let user = req.body
@@ -87,11 +88,24 @@ function getUsers(req, res) {
         })
 }
 
-function addPizza(req, res) {
-    let pizza = req.body
+function searchOrders(req, res) {
+    let {id} = req.params
+    
+    Order.getOrderByUserId(id)
+        .then(orderList => {
+            res.status(201).json(orderList)
+        })
+        .catch(err => {
+            console.log(err)
+            res.status(500).json(err)
+        })
+}
+
+function addFood(req, res) {
+    let food = req.body
     let {id} = req.params
 
-    Order.addPizza(pizza, id)
+    Order.addFood(food, id)
         .then(order => {
             res.status(200).json(order)
         })
@@ -101,18 +115,16 @@ function addPizza(req, res) {
         })
 }
 
-function searchOrders(req, res) {
-    let {email} = req.body
-    
-    User.getOrdersByEmail(email)
-        .then(orderList => {
-            res.status(201).json(orderList)
+function deleteFood(req, res) {
+    let {id} = req.params
+
+    Order.deleteFood(id)
+        .then(updatedOrder => {
+            res.status(201).json({
+                message: 'Food item deleted from order'
+            })
         })
         .catch(err => {
             res.status(500).json(err)
         })
-}
-
-function deleteOrder(res, req) {
-
 }
