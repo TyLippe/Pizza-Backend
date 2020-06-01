@@ -24,7 +24,7 @@ function getOrderByUserId(id) {
     return db('order as o')
         .join('users as u', 'u.id', 'o.user_id')
         .where({user_id: id})
-        .select('o.id', 'u.email', 'o.item_type', 'o.crust', 'o.sauce', 'o.cheese', 'o.toppings', 'o.amount', 'o.size')
+        .select('o.id', 'u.email', 'o.item_type', 'o.crust', 'o.sauce', 'o.type', 'o.cheese', 'o.toppings', 'o.amount', 'o.size')
 }
 
 function deleteFood(id) {
