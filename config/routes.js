@@ -12,7 +12,7 @@ module.exports = server => {
     server.post('/api/register', userRegister)
     server.post('/api/login', userLogin)
     server.get('/api/users', admin, getUsers)
-    server.get('/api/:id/order', admin, searchOrders) // :id === User Id
+    server.get('/api/:id/order', authenticate, searchOrders) // :id === User Id
     server.post('/api/order/:id/food', authenticate, addFood) // :id === Order Id
     server.delete('/api/order/:id', authenticate, deleteFood) // :id === Order Id
 }
